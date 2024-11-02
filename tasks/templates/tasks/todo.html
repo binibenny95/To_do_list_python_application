@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>To-Do List</h1>
+    <form method="post" class="form-group">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-primary">Add Task</button>
+    </form>
+    <ul class="list-group">
+        {% for todo in todos %}
+            <li class="list-group-item {{ 'completed' if todo.completed else '' }}">
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" formaction="{% url 'complete_task' todo.id %}" class="btn btn-link">{{ todo.task }}</button>
+                </form>
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" formaction="{% url 'delete_task' todo.id %}" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No tasks found.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>

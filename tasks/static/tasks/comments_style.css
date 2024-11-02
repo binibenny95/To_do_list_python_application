@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.task-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.task-info label {
+    font-weight: bold;
+}
+
+form {
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+button .material-icons {
+    margin-right: 5px;
+}
+
+.comments {
+    margin-top: 15px;
+}
+
+.comment {
+    background: #e9ecef;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.comment label {
+    font-weight: bold;
+    display: block; /* Ensure each label is on a new line */
+}
+
+.comment .material-icons {
+    cursor: pointer;
+    float: right; /* Align icons to the right */
+}

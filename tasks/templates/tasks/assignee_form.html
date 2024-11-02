@@ -1,0 +1,12 @@
+{% extends 'tasks/home.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2>{{ form.instance.pk|yesno:"Edit Assignee,Add New Assignee" }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'tasks/home.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'tasks/comments_style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Task Details</title>
+</head>
+<body>
+
+{% block content %}
+    <div class="task-container">
+        <h1>Task Details</h1>
+        <div class="task-info">
+
+            <label>Description:</label>
+            <p>{{ task.description }}</p>
+
+            <label>Assigned To:</label>
+            <p>{{ task.assigned_to }}</p>
+
+            <label>Assigned Date:</label>
+            <p>{{ task.date }}</p>
+
+            <label>Priority Level:</label>
+            <p>{{ task.priority }}</p>
+
+            <label>Status:</label>
+            <p>{{ task.status }}</p>
+        </div>
+
+        <h2>Comments Section</h2>
+        <form method="POST" action="{% url 'tasks:view_task' task.id %}">
+            {% csrf_token %}
+            <textarea name="comment" rows="4" cols="50" placeholder="Add your comment here..." required></textarea>
+            <br>
+            <button type="submit">Add Comment</button>
+        </form>
+
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="comment">
+                    <label>Date:</label>
+                    <p>{{ comment.date }}</p>
+                    <label>Comment:</label>
+                    <p>{{ comment.text }}</p>
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

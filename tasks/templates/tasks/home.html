@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Task Zipper</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href=" {% static 'tasks/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'tasks/assets/vendors/ti-icons/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'tasks/assets/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'tasks/assets/vendors/font-awesome/css/font-awesome.min.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'tasks/assets/vendors/font-awesome/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'tasks/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'tasks/assets/css/style.css' %}">
+    <!-- End layout styles -->
+
+  </head>
+  <body>
+    <div class="container-scroller">
+
+      <!-- partial:partials/_navbar.html -->
+     {% block nav %} {% include 'tasks/navbar.html' %}{% endblock nav %}
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        {% block nav1 %} {% include 'tasks/sidebar.html' %}{% endblock nav1 %}
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+              {% block content %}
+                  {% endblock %}
+
+
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2024 <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">made with passion <i class="mdi mdi-heart text-danger"></i></span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'tasks/assets/js/todolist.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <!-- endinject -->
+
+    <!-- End custom js for this page -->
+  </body>
+</html>
