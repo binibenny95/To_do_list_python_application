@@ -22,6 +22,8 @@ from django.urls import include, path, reverse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', lambda request: redirect(reverse('tasks:home_menu'))),
+    path('accounts/', include('accounts.urls')),
+    path('', lambda request: redirect(reverse('accounts:login'))),
     path('tasks/', include('tasks.urls')),
+
 ]

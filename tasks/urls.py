@@ -20,6 +20,9 @@ urlpatterns = [
     #Delete ToDo
     path('tasks/delete_todo/<int:pk>', views.delete_todo, name='delete_todo'),
 
+    #Search tasks
+    path('tasks/search', views.search_tasks, name='search_tasks'),
+
 
 
 ]

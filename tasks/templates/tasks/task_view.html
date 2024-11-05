@@ -8,52 +8,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'tasks/comments_style.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Task Details</title>
 </head>
 <body>
 
 {% block content %}
-    <div class="task-container">
-        <h1>Task Details</h1>
-        <div class="task-info">
-
-            <label>Description:</label>
-            <p>{{ task.description }}</p>
-
-            <label>Assigned To:</label>
-            <p>{{ task.assigned_to }}</p>
-
-            <label>Assigned Date:</label>
-            <p>{{ task.date }}</p>
-
-            <label>Priority Level:</label>
-            <p>{{ task.priority }}</p>
-
-            <label>Status:</label>
-            <p>{{ task.status }}</p>
+    <div class="container my-5">
+        <!-- Task Details Card -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h1 class="card-title">Task Details</h1>
+                <div class="task-info">
+                    <p><strong>Description:</strong> {{ task.description }}</p>
+                    <p><strong>Assigned To:</strong> {{ task.assigned_to }}</p>
+                    <p><strong>Assigned Date:</strong> {{ task.date }}</p>
+                    <p><strong>Priority Level:</strong>
+                        <span class="badge bg-warning text-dark">{{ task.priority }}</span>
+                    </p>
+                    <p><strong>Status:</strong>
+                        <span class="badge bg-info text-dark">{{ task.status }}</span>
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <h2>Comments Section</h2>
-        <form method="POST" action="{% url 'tasks:view_task' task.id %}">
-            {% csrf_token %}
-            <textarea name="comment" rows="4" cols="50" placeholder="Add your comment here..." required></textarea>
-            <br>
-            <button type="submit">Add Comment</button>
-        </form>
+        <!-- Comments Section -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title">Comments Section</h2>
 
-        <div class="comments">
-            {% for comment in comments %}
-                <div class="comment">
-                    <label>Date:</label>
-                    <p>{{ comment.date }}</p>
-                    <label>Comment:</label>
-                    <p>{{ comment.text }}</p>
+                <!-- Add Comment Form -->
+                <form method="POST" action="{% url 'tasks:view_task' task.id %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <textarea name="comment" class="form-control" rows="4" placeholder="Add your comment here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                </form>
+
+                <!-- Comments List -->
+                <div class="comments mt-4">
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="comment card mb-3">
+                                <div class="card-body">
+                                    <p class="card-text"><strong>Date:</strong> {{ comment.date }}</p>
+                                    <p class="card-text"><strong>Comment:</strong> {{ comment.text }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No comments yet.</p>
+                    {% endif %}
                 </div>
-            {% empty %}
-                <p>No comments yet.</p>
-            {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
