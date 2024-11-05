@@ -69,6 +69,7 @@ def task_create(request: HttpRequest) -> HttpResponse:
 
     else:
         form = TaskForm()
+        form.fields['assigned_to'].queryset = Assignee.objects.filter(user=request.user)
         context = {'form': form}
         return render(request, 'tasks/task_form.html', context)
 
@@ -84,6 +85,7 @@ def edit_task(request: HttpRequest, pk: int) -> HttpResponse:
             return redirect('tasks:home_menu')
     else:
         form = TaskForm(instance=task)
+        form.fields['assigned_to'].queryset = Assignee.objects.filter(user=request.user)
         return render(request, 'tasks/task_form.html', {'form': form})
 
 
@@ -128,7 +130,7 @@ def genrate_pdf_file(task: Task) -> BytesIO:
 @login_required
 def view_task(request: HttpRequest, pk: int) -> HttpResponse:
     task = get_object_or_404(Task, pk=pk, user=request.user)
-    comments = Comment.objects.filter(task=task, user=request.user)
+    comments = Comment.objects.filter(task=task)
     if request.method == 'POST':
         comment_text = request.POST.get('comment')
         Comment.objects.create(task=task, text=comment_text)
