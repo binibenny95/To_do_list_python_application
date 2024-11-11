@@ -1,5 +1,6 @@
 {% extends 'tasks/home.html' %}
 {% load statustags %}
+
 {% load crispy_forms_tags %}  <!-- Load crispy forms tags -->
 {% block content %}
     <!-- Bootstrap CSS and Icons -->
@@ -56,9 +57,11 @@
                                 <thead>
                                     <tr>
                                         <th>Assignee</th>
-                                        <th>Subject</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
                                         <th>Status</th>
                                         <th>Priority</th>
+                                        <th>Reporter</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -66,9 +69,11 @@
                                     {% for task in tasks_list %}
                                     <tr>
                                         <td>{{ task.assigned_to }}</td>
-                                        <td>{{ task.description }}</td>
-                                        <td><span class="badge {{ task.status|status_css_class }}">{{ task.status }}</span></td>
-                                        <td><span class="badge {{ task.priority|priority_css_class }}">{{ task.priority }}</span></td>
+                                        <td>{{ task.title }}</td>
+                                        <td>{{ task.description }}</td>{{ task.status }}
+                                        <td><span class=" {{ task.status|status_css_class }}">{{ task.status }}</span></td>
+                                        <td><span class="{{ task.priority|priority_css_class }}">{{ task.priority }} </span></td>
+                                        <td>{{ task.user }}</td>
                                         <td class="actions">
                                             <a href="{% url 'tasks:generate_pdf' task.pk %}" class="text-primary me-2" title="Download"><i class="material-icons">cloud_download</i></a>
                                             <a href="{% url 'tasks:edit_task' task.pk %}" class="text-success me-2" title="Edit"><i class="material-icons">edit</i></a>

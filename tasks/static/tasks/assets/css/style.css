@@ -21842,7 +21842,26 @@ code {
   color: #ffffff;
   background: #3e4b5b;
 }
+.badge-high {
+    background-color: #d9534f; /* Red for High Priority */
+    color: white;
+    padding: 0.25em 0.5em;
+    border-radius: 0.25rem;
+}
 
+.badge-medium {
+    background-color: #f0ad4e; /* Orange for Medium Priority */
+    color: black;
+    padding: 0.25em 0.5em;
+    border-radius: 0.25rem;
+}
+
+.badge-low {
+    background-color: #5bc0de; /* Blue for Low Priority */
+    color: white;
+    padding: 0.25em 0.5em;
+    border-radius: 0.25rem;
+}
 /*Badge gradient variations*/
 .badge-gradient-primary {
   background: linear-gradient(to right, #da8cff, #9a55ff);

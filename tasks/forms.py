@@ -3,33 +3,49 @@ from crispy_forms.layout import Submit
 from django import forms
 from django.http import request
 from django_select2.forms import Select2Widget
-from .models import Task, Assignee, Status, Todo
+from .models import Priorities, Task, Assignee, Status, Todo
 
 
 class TaskForm(forms.ModelForm):
+    clear_image = forms.BooleanField(required=False, label="Clear current image")
+
     class Meta:
         model = Task
-        fields = ['description', 'hours', 'assigned_to', 'status', 'priority']
+        fields = ['title', 'description', 'hours', 'assigned_to', 'status', 'priority', 'image']
         widgets = {
-            'assigned_to': Select2Widget(attrs={'class': 'form-control'}),
-            'status': Select2Widget(attrs={'class': 'form-control'}),
-            'priority': Select2Widget(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'hours': forms.TextInput(attrs={'class': 'form-control'}),
+            'assigned_to': Select2Widget(attrs={'class': 'form-control'}),  # Using Select2Widget
+            'status': Select2Widget(attrs={'class': 'form-control'}),  # Using Select2Widget
+            'priority': Select2Widget(attrs={'class': 'form-control'}),  # Using Select2Widget
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
-        def __init__(self, *args, **kwargs):
-            user = kwargs.pop('user', None)  # Remove 'user' from kwargs
-            super(TaskForm, self).__init__(*args, **kwargs)
-            self.helper = FormHelper()
-            self.helper.form_method = 'POST'
-            self.helper.add_input(Submit('submit', 'Save Task'))
+    def save(self, *args, **kwargs):
+        task = super().save(*args, **kwargs)  # Save the task instance first
+        if self.cleaned_data.get('clear_image'):
+            if task.image:  # Check if there's an image to delete
+                task.image.delete(save=True)  # Delete the image file from storage
+        return task
 
-            # Many to One, form basic select
-            self.fields['status'].queryset = Status.objects.all()
-            self.fields['status'].widget.attrs.update({'class': 'form-control'})
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
 
-            # Many to One, form basic select
-            self.fields['priority'].queryset = Status.objects.all()
-            self.fields['priority'].widget.attrs.update({'class': 'form-control'})
+        # Initialize form helper for crispy-forms
+        self.helper = FormHelper()
+        self.helper.form_method = 'POST'
+        self.helper.add_input(Submit('submit', 'Save Task'))
+
+        # Handle custom queryset for status and priority fields
+        self.fields['status'].queryset = Status.objects.all()
+        self.fields['status'].widget.attrs.update({'class': 'form-control'})
+
+        self.fields['priority'].queryset = Priorities.objects.all()  # Make sure Priority is a different model
+        self.fields['priority'].widget.attrs.update({'class': 'form-control'})
+
+        # Optionally, set a class for the clear_image checkbox
+        self.fields['clear_image'].widget.attrs.update({'class': 'form-check-input'})
 
 
 class AssigneeForm(forms.ModelForm):
@@ -42,7 +58,6 @@ class AssigneeForm(forms.ModelForm):
             self.helper = FormHelper()
             self.helper.form_method = 'POST'
             self.helper.add_input(Submit('submit', 'Save Assignee'))
-
 
 class TodoForm(forms.ModelForm):
     class Meta:

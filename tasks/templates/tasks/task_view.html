@@ -1,5 +1,6 @@
 {% extends 'tasks/home.html' %}
 {% load static %}
+{% load statustags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,10 +25,10 @@
                     <p><strong>Assigned To:</strong> {{ task.assigned_to }}</p>
                     <p><strong>Assigned Date:</strong> {{ task.date }}</p>
                     <p><strong>Priority Level:</strong>
-                        <span class="badge bg-warning text-dark">{{ task.priority }}</span>
+                        <span class="{{ task.priority|priority_css_class }}">{{ task.priority }}</span>
                     </p>
                     <p><strong>Status:</strong>
-                        <span class="badge bg-info text-dark">{{ task.status }}</span>
+                        <span class="{{ task.status|status_css_class }}">{{ task.status }}</span>
                     </p>
                 </div>
             </div>

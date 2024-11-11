@@ -41,12 +41,14 @@ class Todo(models.Model):
 
 
 class Task(models.Model):
+    title = models.TextField(verbose_name="Task title", max_length=100, default='test')
     description = models.TextField(verbose_name="Description", max_length=1000)
     hours = models.IntegerField(verbose_name="Hours", default=0)
     date = models.DateTimeField(verbose_name="Date", auto_now=True)
     assigned_to = models.ForeignKey(Assignee, on_delete=models.CASCADE, null=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True)
     priority = models.ForeignKey(Priorities, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(verbose_name="Task image", upload_to="task_images/", null=True, blank=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 

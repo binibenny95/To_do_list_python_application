@@ -54,7 +54,7 @@ def home_menu(request: HttpRequest) -> HttpResponse:
 @login_required
 def task_create(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, request.FILES)
         if form.is_valid():
             task = form.save(commit=False)
             task.user = request.user
@@ -79,7 +79,7 @@ def task_create(request: HttpRequest) -> HttpResponse:
 def edit_task(request: HttpRequest, pk: int) -> HttpResponse:
     task = get_object_or_404(Task, pk=pk, user=request.user)
     if request.method == 'POST':
-        form = TaskForm(request.POST, instance=task)
+        form = TaskForm(request.POST, request.FILES, instance=task)
         if form.is_valid():
             form.save()
             return redirect('tasks:home_menu')

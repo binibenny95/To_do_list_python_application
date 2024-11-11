@@ -4,9 +4,34 @@
 
 {% block content %}
     <h2>{{ form.instance.pk|yesno:"Edit Task,Create New Task" }}</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form|crispy }}
+
+        <!-- Render form fields excluding the image field -->
+        {{ form.non_field_errors }}
+        {{ form.title|as_crispy_field }}
+        {{ form.description|as_crispy_field }}
+        {{ form.hours|as_crispy_field }}
+        {{ form.assigned_to|as_crispy_field }}
+        {{ form.status|as_crispy_field }}
+        {{ form.priority|as_crispy_field }}
+
+        {% if form.instance.image %}
+            <div>
+                <label>Current Image:</label>
+                <img src="{{ form.instance.image.url }}" alt="Task Image" style="max-width: 200px; max-height: 200px;">
+                <div>
+                    {{ form.clear_image }} <label for="clear_image">Clear current image</label>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Upload new image field without the default clear checkbox -->
+        <div>
+            <label for="id_image">Upload New Image:</label>
+            {{ form.image.as_widget }}  <!-- Manually rendering the image field -->
+        </div>
+
         <button type="submit">Submit</button>
     </form>
 {% endblock %}
