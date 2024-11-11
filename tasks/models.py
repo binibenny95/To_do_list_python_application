@@ -50,6 +50,7 @@ class Task(models.Model):
     priority = models.ForeignKey(Priorities, on_delete=models.CASCADE, null=True)
     image = models.ImageField(verbose_name="Task image", upload_to="task_images/", null=True, blank=True)
 
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
