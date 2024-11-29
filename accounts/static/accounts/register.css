@@ -1,0 +1,64 @@
+ body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Full height of the viewport */
+        margin: 0; /* Remove default margin */
+        background-color: #f0f4f8; /* Light background color */
+        font-family: Arial, sans-serif; /* Font family */
+    }
+
+    .container {
+        width: 100%;
+        max-width: 400px; /* Max width for the form */
+        margin: 0 20px; /* Margin for smaller screens */
+    }
+
+    .card {
+        border-radius: 10px; /* Rounded corners for the card */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        background-color: #fff; /* White background for the card */
+        overflow: hidden; /* Prevent overflow */
+    }
+
+    .card-header {
+        background-color: #28a745; /* Green background for header */
+        color: white; /* White text */
+        text-align: center; /* Centered text */
+        padding: 20px; /* Padding */
+    }
+
+    .card-body {
+        padding: 20px; /* Padding for the card body */
+    }
+
+    .form-group {
+        margin-top: 20px; /* Margin for form groups */
+    }
+
+    .btn {
+        background-color: #28a745; /* Button background color */
+        color: white; /* Button text color */
+        padding: 10px; /* Button padding */
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */
+        width: 100%; /* Full width button */
+        cursor: pointer; /* Pointer on hover */
+        transition: background-color 0.3s; /* Transition effect */
+    }
+
+    .btn:hover {
+        background-color: #218838; /* Darker green on hover */
+    }
+
+    .text-link {
+        color: #28a745; /* Link color */
+    }
+
+    .text-link:hover {
+        text-decoration: underline; /* Underline on hover */
+    }
+
+    p {
+        text-align: center; /* Centered text */
+    }

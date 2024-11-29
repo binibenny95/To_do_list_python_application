@@ -1,0 +1,39 @@
+ <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+                <div class="nav-profile-image">
+                  <span class="login-status online"></span>
+                  <!--change to offline or busy as needed-->
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tasks:home_menu' %}">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="{% url 'tasks:task_create' %}" aria-expanded="false" aria-controls="tables">
+                <span class="menu-title">Tasks</span>
+                <i class="mdi mdi-clipboard-check menu-icon"></i>
+              </a>
+
+            </li>
+              <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="{% url 'tasks:create_assignee' %}" aria-expanded="false" aria-controls="tables">
+                <span class="menu-title">Assignee</span>
+                <i class="mdi mdi-account-multiple-outline menu-icon"></i>
+              </a>
+
+            </li>
+              <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="{% url 'tasks:search_tasks' %}" aria-expanded="false" aria-controls="tables">
+                <span class="menu-title">Search</span>
+                <i class="mdi mdi-magnify menu-icon"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>

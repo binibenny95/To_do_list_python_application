@@ -1,0 +1,99 @@
+{% extends 'tasks/home.html' %}
+{% load static %}
+{% load statustags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'tasks/comments_style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Task Details</title>
+</head>
+<body>
+
+{% block content %}
+    <div class="container my-5">
+        <!-- Task Details Card -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h1 class="task-title">{{ task.title }}</h1>
+                <div class="task-info mt-4">
+                    <p><strong>Description:</strong> {{ task.description }}</p>
+                    <p><strong>Assigned To:</strong> {{ task.assigned_to }}</p>
+                    <p><strong>Assigned Date:</strong> {{ task.date }}</p>
+                    <p><strong>Priority Level:</strong>
+                        <span class="{{ task.priority|priority_css_class }}">{{ task.priority }}</span>
+                    </p>
+                    <p><strong>Status:</strong>
+                        <span class="{{ task.status|status_css_class }}">{{ task.status }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subtasks Section -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Subtasks</h2>
+
+                <!-- Subtask List -->
+                <div class="subtask-list mt-4">
+                    {% if subtasks %}
+                        {% for subtask in subtasks %}
+                            <div class="subtask card mb-3">
+                                <div class="card-body">
+                                    <p><strong>Title:</strong> {{ subtask.title }}</p>
+                                    <p><strong>Description:</strong> {{ subtask.description }}</p>
+                                    <p><strong>Created On:</strong> {{ subtask.date }}</p>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No subtasks available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title">Comments Section</h2>
+
+                <!-- Add Comment Form -->
+                <form method="POST" action="{% url 'tasks:view_task' task.id %}" class="comment-form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <textarea name="comment" class="form-control" rows="4" placeholder="Add your comment here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                </form>
+
+                <!-- Comments List -->
+                <div class="comments mt-4">
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="comment card mb-3">
+                                <div class="card-body">
+                                    <p class="card-text"><strong>Date:</strong> {{ comment.date }}</p>
+                                    <p class="card-text"><strong>Comment:</strong> {{ comment.text }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No comments yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

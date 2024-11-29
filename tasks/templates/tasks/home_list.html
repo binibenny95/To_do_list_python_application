@@ -1,0 +1,192 @@
+{% extends 'tasks/home.html' %}
+{% load statustags %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!-- Bootstrap and Custom CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <div class="page-header mb-4">
+        <h3 class="page-title">
+            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                <i class="mdi mdi-home"></i>
+            </span> Dashboard
+        </h3>
+    </div>
+
+    <!-- Status Cards Row -->
+    <div class="row mb-4">
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-danger card-img-holder text-white shadow-lg rounded-lg">
+                <div class="card-body">
+                    <h4 class="font-weight-normal mb-3">Completed <i class="mdi mdi-check-all mdi-24px float-end"></i></h4>
+                    <h2 class="mb-0">{{ count.completed_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-info card-img-holder text-white shadow-lg rounded-lg">
+                <div class="card-body">
+                    <h4 class="font-weight-normal mb-3">In Progress <i class="mdi mdi-progress-check mdi-24px float-end"></i></h4>
+                    <h2 class="mb-0">{{ count.in_progress_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-success card-img-holder text-white shadow-lg rounded-lg">
+                <div class="card-body">
+                    <h4 class="font-weight-normal mb-3">On Hold <i class="mdi mdi-pause-circle mdi-24px float-end"></i></h4>
+                    <h2 class="mb-0">{{ count.on_hold_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Table -->
+    <div class="row mb-4">
+        <div class="col-12 grid-margin">
+            <div class="card shadow-sm rounded-lg">
+                <div class="card-body">
+                    <h4 class="card-title">Tasks</h4>
+                    <div class="table-responsive">
+                        {% if tasks_page %}
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Assignee</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Priority</th>
+                                        <th>Reporter</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for task in tasks_page %}
+                                    <tr>
+                                        <td>{{ task.assigned_to }}</td>
+                                        <td>{{ task.title }}</td>
+                                        <td>{{ task.description }}</td>
+                                        <td><span class="{{ task.status|status_css_class }}">{{ task.status }}</span></td>
+                                        <td><span class="{{ task.priority|priority_css_class }}">{{ task.priority }}</span></td>
+                                        <td>{{ task.user }}</td>
+                                        <td class="actions">
+                                            <a href="{% url 'tasks:generate_pdf' task.pk %}" class="text-primary me-2" title="Download"><i class="material-icons">cloud_download</i></a>
+                                            <a href="{% url 'tasks:edit_task' task.pk %}" class="text-success me-2" title="Edit"><i class="material-icons">edit</i></a>
+                                            <a href="{% url 'tasks:delete_task' task.pk %}" class="text-danger me-2" title="Delete"><i class="material-icons">delete</i></a>
+                                            <a href="{% url 'tasks:view_task' task.pk %}" class="text-info" title="View"><i class="material-icons">visibility</i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>No Tasks available!</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div class="pagination-controls mt-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if tasks_page.has_previous %}
+                                <a href="?page=1" class="btn btn-outline-secondary btn-sm">First</a>
+                                <a href="?page={{ tasks_page.previous_page_number }}" class="btn btn-outline-secondary btn-sm">Previous</a>
+                            {% endif %}
+                        </div>
+                        <span>Page {{ tasks_page.number }} of {{ tasks_page.paginator.num_pages }}</span>
+                        <div>
+                            {% if tasks_page.has_next %}
+                                <a href="?page={{ tasks_page.next_page_number }}" class="btn btn-outline-secondary btn-sm">Next</a>
+                                <a href="?page={{ tasks_page.paginator.num_pages }}" class="btn btn-outline-secondary btn-sm">Last</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignees and Todo List Section -->
+    <div class="row">
+        <div class="col-md-7 grid-margin stretch-card">
+            <div class="card shadow-sm rounded-lg">
+                <div class="card-body">
+                    <h4 class="card-title">Assignees</h4>
+                    <div class="table-responsive">
+                        {% if assignees_list %}
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for assignee in assignees_list %}
+                                    <tr>
+                                        <td>{{ assignee.name }}</td>
+                                        <td>{{ assignee.email }}</td>
+                                        <td class="actions">
+                                            <a href="{% url 'tasks:edit_assignee' assignee.id %}" class="text-success me-2" title="Edit"><i class="material-icons">edit</i></a>
+                                            <a href="{% url 'tasks:delete_assignee' assignee.id %}" class="text-danger" title="Delete"><i class="material-icons">delete</i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>No Assignees available!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Todo List Section -->
+        <div class="col-md-5 grid-margin stretch-card">
+            <div class="card shadow-sm rounded-lg">
+                <div class="card-body">
+                    <h4 class="card-title">Todo List</h4>
+                    <form method="post" class="form-group">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary mt-3">Add Task</button>
+                    </form>
+                    <div class="table-responsive mt-4">
+                        {% if todos %}
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Todo</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for todo in todos %}
+                                    <tr>
+                                        <td>{{ todo.name }}</td>
+                                        <td>
+                                            <form method="post" style="display:inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" formaction="{% url 'tasks:delete_todo' todo.id %}" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>No todos available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

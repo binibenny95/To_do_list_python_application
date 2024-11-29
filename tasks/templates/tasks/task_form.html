@@ -1,0 +1,74 @@
+{% extends 'tasks/home.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+        <!-- Main Task Form on the left -->
+        <div class="col-md-8">
+            <h2>{{ task.name }}</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}  <!-- Render the task form -->
+
+                {% if form.instance.image %}
+                    <div>
+                        <label>Current Image:</label>
+                        <img src="{{ form.instance.image.url }}" alt="Task Image"
+                             style="max-width: 200px; max-height: 200px;">
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary mt-3">Save Task</button>
+            </form>
+        </div>
+
+        <!-- Subtask Form and List on the right -->
+        {% if  subtask_form %}
+            <div class="col-md-4">
+                <!-- Button to show the subtask form -->
+                <button id="add-subtask-btn" class="btn btn-primary mb-3">Add Subtask</button>
+
+
+                <!-- Subtask Form, initially hidden -->
+                <div id="subtask-form" style="display: none;">
+                    <h4>Add New Subtask</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ subtask_form|crispy }}  <!-- Render the subtask form -->
+                        <button type="submit" class="btn btn-primary mt-2">Save Subtask</button>
+                    </form>
+                </div>
+
+                <!-- Subtask List -->
+                <h4 class="mt-4">Subtasks</h4>
+                <ul class="list-group">
+                    {% for subtask in subtasks %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ subtask.title }}</strong><br>
+                                <small>{{ subtask.description }}</small>
+                            </div>
+                            <!-- Delete button for each subtask with added margin -->
+                            <a href="{% url 'tasks:delete_subtask' subtask.id %}" class="btn btn-danger btn-sm ml-3">Delete</a>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No subtasks yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>{% endif %}
+    </div>
+
+    <script>
+        // JavaScript to toggle visibility of the subtask form
+        document.getElementById("add-subtask-btn").addEventListener("click", function () {
+            const subtaskForm = document.getElementById("subtask-form");
+            // Toggle the display of the subtask form
+            if (subtaskForm.style.display === "none" || subtaskForm.style.display === "") {
+                subtaskForm.style.display = "block";
+            } else {
+                subtaskForm.style.display = "none";
+            }
+        });
+    </script>
+
+{% endblock %}
