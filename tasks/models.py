@@ -32,10 +32,12 @@ class Priorities(models.Model):
     def __str__(self):
         return self.name
 
+
 class Todo(models.Model):
     name = models.TextField(verbose_name="Todo task", max_length=100)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
     def __str__(self):
         return self.name
 
@@ -50,11 +52,11 @@ class Task(models.Model):
     priority = models.ForeignKey(Priorities, on_delete=models.CASCADE, null=True)
     image = models.ImageField(verbose_name="Task image", upload_to="task_images/", null=True, blank=True)
 
-
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.description
+
 
 class Comment(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
@@ -64,3 +66,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+class Subtask(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    title = models.TextField(verbose_name="Subtask title", max_length=100)
+    description = models.TextField(verbose_name="Subtask description", max_length=1000)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+

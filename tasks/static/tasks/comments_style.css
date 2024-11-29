@@ -72,3 +72,79 @@ button .material-icons {
     cursor: pointer;
     float: right; /* Align icons to the right */
 }
+  /* Task Title Styling */
+        .task-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #007bff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Task Info Section */
+        .task-info p {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .task-info p strong {
+            color: #007bff;
+        }
+
+        /* Card Styling */
+        .card {
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card Title */
+        .card-title {
+            font-size: 1.8rem;
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        /* Comments Section */
+        .comments .comment {
+            background-color: #f8f9fa;
+            border-left: 5px solid #007bff;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comments .comment p {
+            font-size: 1.1rem;
+        }
+
+        /* Form Styling */
+        .comment-form textarea {
+            font-size: 1.1rem;
+            height: 120px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .task-title {
+                font-size: 2rem;
+                padding: 10px;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
+        }

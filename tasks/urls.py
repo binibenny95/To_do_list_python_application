@@ -9,6 +9,10 @@ urlpatterns = [
     path('tasks/delete/<int:pk>', views.delete_task, name='delete_task'),
     path('tasks/edit/<int:pk>', views.edit_task, name='edit_task'),
     path('tasks/view/<int:pk>', views.view_task, name='view_task'),
+
+    #deleet subtask
+    path('tasks/delete/<int:subtask_id>/', views.delete_subtask, name='delete_subtask'),
+
     #download task as pdf
     path('tasks/download/<int:pk>', views.generate_pdf, name='generate_pdf'),
 

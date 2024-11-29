@@ -3,7 +3,7 @@ from crispy_forms.layout import Submit
 from django import forms
 from django.http import request
 from django_select2.forms import Select2Widget
-from .models import Priorities, Task, Assignee, Status, Todo
+from .models import Priorities, Subtask, Task, Assignee, Status, Todo
 
 
 class TaskForm(forms.ModelForm):
@@ -13,13 +13,13 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ['title', 'description', 'hours', 'assigned_to', 'status', 'priority', 'image']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'hours': forms.TextInput(attrs={'class': 'form-control'}),
-            'assigned_to': Select2Widget(attrs={'class': 'form-control'}),  # Using Select2Widget
-            'status': Select2Widget(attrs={'class': 'form-control'}),  # Using Select2Widget
-            'priority': Select2Widget(attrs={'class': 'form-control'}),  # Using Select2Widget
-            'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 50%;'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'style': 'width: 50%;'}),
+            'hours': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 50%;'}),
+            'assigned_to': Select2Widget(attrs={'class': 'form-control', 'style': 'width: 50%;'}),  # Using Select2Widget
+            'status': Select2Widget(attrs={'class': 'form-control', 'style': 'width: 50%;'}),  # Using Select2Widget
+            'priority': Select2Widget(attrs={'class': 'form-control', 'style': 'width: 50%;'}),  # Using Select2Widget
+            'image': forms.FileInput(attrs={'class': 'form-control', 'style': 'width: 50%;'}),
         }
 
     def save(self, *args, **kwargs):
@@ -65,4 +65,13 @@ class TodoForm(forms.ModelForm):
         fields = ['name']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Add a new todo...'}),
+        }
+class SubtaskForm(forms.ModelForm):
+    class Meta:
+        model = Subtask
+        fields = ['title', 'description']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 50%;'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'style': 'width: 50%;'}),
+
         }
